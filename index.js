@@ -35,6 +35,14 @@ async function run() {
             const result = await courseCollection.insertOne(newCourse);
             res.send(result);
         });
+
+        // 02. get all course data (json format) from database
+        app.get('/course', async (req, res) => {
+            const query = {};
+            const cursor = courseCollection.find(query);
+            const courses = await cursor.toArray();
+            res.send(courses);
+        });
     } finally {
         // await client.close();
     }
