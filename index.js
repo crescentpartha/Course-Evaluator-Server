@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 require('dotenv').config();
 const port = process.env.PORT || 5000;
 
@@ -26,6 +26,7 @@ async function run() {
     try {
         await client.connect();
         const courseCollection = client.db('courseEvaluator').collection('course');
+        const noticeCollection = client.db('courseEvaluator').collection('notice');
         const userCollection = client.db('courseEvaluator').collection('users');
         // console.log("courseEvaluatorServer successfully connected to MongoDB!");
 
@@ -45,6 +46,16 @@ async function run() {
             const cursor = courseCollection.find(query);
             const courses = await cursor.toArray();
             res.send(courses);
+        });
+
+        /* for noticeCollection */
+
+        // 01. POST a notice from server-side to database
+        app.post('/notice', async(req, res) => {
+            const newNotice = req.body;
+            console.log('Adding a new notice', newNotice);
+            const result = await noticeCollection.insertOne(newNotice);
+            res.send(result);
         });
 
         /* for userCollection */
