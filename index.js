@@ -26,8 +26,10 @@ async function run() {
     try {
         await client.connect();
         const courseCollection = client.db('courseEvaluator').collection('course');
+        const userCollection = client.db('courseEvaluator').collection('users');
         // console.log("courseEvaluatorServer successfully connected to MongoDB!");
 
+        /* for courseCollection */
         // 01. POST a course from server-side to database
         app.post('/course', async(req, res) => {
             const newCourse = req.body;
@@ -42,6 +44,20 @@ async function run() {
             const cursor = courseCollection.find(query);
             const courses = await cursor.toArray();
             res.send(courses);
+        });
+
+        /* for userCollection */
+        // 03. User Creation Process | put user to userCollection
+        app.put('/user/:email', async (req, res) => {
+            const email = req.params.email;
+            const user = req.body;
+            const filter = { email: email };
+            const options = { upsert: true };
+            const updateDoc = {
+                $set: user,
+            };
+            const result = await userCollection.updateOne(filter, updateDoc, options);
+            res.send(result);
         });
     } finally {
         // await client.close();
