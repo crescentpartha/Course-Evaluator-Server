@@ -97,6 +97,14 @@ async function run() {
             res.send(result);
         });
 
+        // 02. get all survey response data from database
+        app.get('/response', async (req, res) => {
+            const query = {};
+            const cursor = responseCollection.find(query);
+            const responses = await cursor.toArray();
+            res.send(responses);
+        });
+
         /* for userCollection */
 
         // 01. User Creation Process | put user to userCollection
