@@ -60,6 +60,14 @@ async function run() {
             res.send(courses);
         });
 
+        // 04. Load a particular course data from database to server-side | (id-wise data load)
+        app.get('/course/:id', async(req, res) => {
+            const id = req.params.id;
+            const query = {_id: new ObjectId(id)};
+            const result = await courseCollection.findOne(query);
+            res.send(result);
+        });
+
         /* for noticeCollection */
 
         // 01. POST a notice from server-side to database
@@ -103,7 +111,7 @@ async function run() {
 
         // 03. get particular user to check user role (admin or not)
         app.get('/user/admin', async (req, res) => {
-            console.log(req.query);
+            // console.log(req.query);
             const adminUser = await userCollection.findOne({ email: req.query.email });
             res.send(adminUser);
         });
