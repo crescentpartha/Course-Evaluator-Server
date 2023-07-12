@@ -105,6 +105,14 @@ async function run() {
             res.send(responses);
         });
 
+        // 03. Load a particular survey response data from database to server-side | (id-wise data load)
+        app.get('/response/:id', async(req, res) => {
+            const id = req.params.id;
+            const query = {_id: new ObjectId(id)};
+            const result = await responseCollection.findOne(query);
+            res.send(result);
+        });
+
         /* for userCollection */
 
         // 01. User Creation Process | put user to userCollection
