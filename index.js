@@ -28,6 +28,7 @@ async function run() {
         const courseCollection = client.db('courseEvaluator').collection('course');
         const noticeCollection = client.db('courseEvaluator').collection('notice');
         const userCollection = client.db('courseEvaluator').collection('users');
+        const responseCollection = client.db('courseEvaluator').collection('responses');
         // console.log("courseEvaluatorServer successfully connected to MongoDB!");
 
         /* for courseCollection */
@@ -84,6 +85,16 @@ async function run() {
             const cursor = noticeCollection.find(query);
             const notices = await cursor.toArray();
             res.send(notices);
+        });
+
+        /* for responseCollection */
+
+        // 01. POST a survey response from server-side to database
+        app.post('/response', async(req, res) => {
+            const newResponse = req.body;
+            console.log('Adding a survey response', newResponse);
+            const result = await responseCollection.insertOne(newResponse);
+            res.send(result);
         });
 
         /* for userCollection */
