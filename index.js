@@ -48,6 +48,18 @@ async function run() {
             res.send(courses);
         });
 
+        // 03. get courses for evaluation using search query or query parameter
+        app.get('/courseForEvaluation', async (req, res) => {
+            const {degree, semester} = req.query;
+            const query = {};
+            if (degree) query.degree = degree;
+            if (semester) query.semester = semester;
+            // console.log(query);
+            const cursor = courseCollection.find(query);
+            const courses = await cursor.toArray();
+            res.send(courses);
+        });
+
         /* for noticeCollection */
 
         // 01. POST a notice from server-side to database
