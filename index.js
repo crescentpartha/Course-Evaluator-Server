@@ -58,9 +58,17 @@ async function run() {
             res.send(result);
         });
 
+        // 02. get all notices data (json format) from database
+        app.get('/notice', async (req, res) => {
+            const query = {};
+            const cursor = noticeCollection.find(query);
+            const notices = await cursor.toArray();
+            res.send(notices);
+        });
+
         /* for userCollection */
 
-        // 03. User Creation Process | put user to userCollection
+        // 01. User Creation Process | put user to userCollection
         app.put('/user/:email', async (req, res) => {
             const email = req.params.email;
             const user = req.body;
@@ -73,7 +81,7 @@ async function run() {
             res.send(result);
         });
 
-        // 04. get all user's data (json format) from database
+        // 02. get all user's data (json format) from database
         app.get('/user', async (req, res) => {
             const query = {};
             const cursor = userCollection.find(query);
@@ -81,7 +89,7 @@ async function run() {
             res.send(users);
         });
 
-        // 05. get particular user to check user role (admin or not)
+        // 03. get particular user to check user role (admin or not)
         app.get('/user/admin', async (req, res) => {
             console.log(req.query);
             const adminUser = await userCollection.findOne({ email: req.query.email });
