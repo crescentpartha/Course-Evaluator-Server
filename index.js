@@ -27,6 +27,7 @@ async function run() {
         await client.connect();
         const courseCollection = client.db('courseEvaluator').collection('course');
         const noticeCollection = client.db('courseEvaluator').collection('notice');
+        const news_eventCollection = client.db('courseEvaluator').collection('news_event');
         const userCollection = client.db('courseEvaluator').collection('users');
         const responseCollection = client.db('courseEvaluator').collection('responses');
         // console.log("courseEvaluatorServer successfully connected to MongoDB!");
@@ -36,7 +37,7 @@ async function run() {
         // 01. POST a course from server-side to database
         app.post('/course', async(req, res) => {
             const newCourse = req.body;
-            console.log('Adding a new course', newCourse);
+            // console.log('Adding a new course', newCourse);
             const result = await courseCollection.insertOne(newCourse);
             res.send(result);
         });
@@ -74,7 +75,7 @@ async function run() {
         // 01. POST a notice from server-side to database
         app.post('/notice', async(req, res) => {
             const newNotice = req.body;
-            console.log('Adding a new notice', newNotice);
+            // console.log('Adding a new notice', newNotice);
             const result = await noticeCollection.insertOne(newNotice);
             res.send(result);
         });
@@ -87,12 +88,22 @@ async function run() {
             res.send(notices);
         });
 
+        /* for news_eventCollection */
+
+        // 01. POST a news_event data from server-side to database
+        app.post('/news_event', async(req, res) => {
+            const newNewsEvent = req.body;
+            // console.log('Adding a new news and event', newNewsEvent);
+            const result = await news_eventCollection.insertOne(newNewsEvent);
+            res.send(result);
+        });
+
         /* for responseCollection */
 
         // 01. POST a survey response from server-side to database
         app.post('/response', async(req, res) => {
             const newResponse = req.body;
-            console.log('Adding a survey response', newResponse);
+            // console.log('Adding a survey response', newResponse);
             const result = await responseCollection.insertOne(newResponse);
             res.send(result);
         });
