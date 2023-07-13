@@ -98,6 +98,14 @@ async function run() {
             res.send(result);
         });
 
+        // 02. get all news_event data (json format) from database
+        app.get('/news_event', async (req, res) => {
+            const query = {};
+            const cursor = news_eventCollection.find(query);
+            const news_events = await cursor.toArray();
+            res.send(news_events);
+        });
+
         /* for responseCollection */
 
         // 01. POST a survey response from server-side to database
