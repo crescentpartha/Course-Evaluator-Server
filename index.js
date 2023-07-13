@@ -161,6 +161,17 @@ async function run() {
             const adminUser = await userCollection.findOne({ email: req.query.email });
             res.send(adminUser);
         });
+
+        // 04. get users for Student, teacher or admin based on role using search query or query parameter
+        app.get('/user/role', async (req, res) => {
+            const {role} = req.query;
+            const query = {};
+            if (role) query.role = role; // select student/teacher/admin/All type users;
+            // console.log(query);
+            const cursor = userCollection.find(query);
+            const roleBasedUser = await cursor.toArray();
+            res.send(roleBasedUser);
+        });
     } finally {
         // await client.close();
     }
