@@ -172,6 +172,14 @@ async function run() {
             const roleBasedUser = await cursor.toArray();
             res.send(roleBasedUser);
         });
+
+        // 05. Load a particular user data from database to server-side | (id-wise data load)
+        app.get('/user/:id', async(req, res) => {
+            const id = req.params.id;
+            const query = {_id: new ObjectId(id)};
+            const result = await userCollection.findOne(query);
+            res.send(result);
+        });
     } finally {
         // await client.close();
     }
