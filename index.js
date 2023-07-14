@@ -70,6 +70,15 @@ async function run() {
             res.send(result);
         });
 
+        // 05. DELETE a particular course data from database
+        app.delete('/course/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: new ObjectId(id) };
+            const result = await courseCollection.deleteOne(query);
+            // console.log('One course item is deleted');
+            res.send(result);
+        });
+
         /* for noticeCollection */
 
         // 01. POST a notice from server-side to database
@@ -88,6 +97,15 @@ async function run() {
             res.send(notices);
         });
 
+        // 03. DELETE a particular notice data from database
+        app.delete('/notice/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: new ObjectId(id) };
+            const result = await noticeCollection.deleteOne(query);
+            // console.log('One notice item is deleted');
+            res.send(result);
+        });
+
         /* for news_eventCollection */
 
         // 01. POST a news_event data from server-side to database
@@ -104,6 +122,15 @@ async function run() {
             const cursor = news_eventCollection.find(query);
             const news_events = await cursor.toArray();
             res.send(news_events);
+        });
+
+        // 03. DELETE a particular news_event data from database
+        app.delete('/news_event/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: new ObjectId(id) };
+            const result = await news_eventCollection.deleteOne(query);
+            // console.log('One news_event item is deleted');
+            res.send(result);
         });
 
         /* for responseCollection */
@@ -129,6 +156,15 @@ async function run() {
             const id = req.params.id;
             const query = {_id: new ObjectId(id)};
             const result = await responseCollection.findOne(query);
+            res.send(result);
+        });
+
+        // 05. DELETE a particular survey response data from database
+        app.delete('/response/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: new ObjectId(id) };
+            const result = await responseCollection.deleteOne(query);
+            // console.log('One response item is deleted');
             res.send(result);
         });
 
