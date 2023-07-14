@@ -216,6 +216,23 @@ async function run() {
             const result = await userCollection.findOne(query);
             res.send(result);
         });
+
+        // 06. Update a particular user data in server-side and send to the database
+        app.put('/particular_user/:id', async(req, res) => {
+            const id = req.params.id;
+            const userData = req.body;
+            // console.log(userData);
+            const filter = {_id: new ObjectId(id)};
+            const options = { upsert: true };
+            const updatedDoc = {
+                $set: {
+                    completedCourse: userData
+                }
+            };
+            const result = await userCollection.updateOne(filter, updatedDoc, options);
+            // console.log('User is updated');
+            res.send(result);
+        });
     } finally {
         // await client.close();
     }
