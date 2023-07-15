@@ -11,8 +11,5 @@
             "src": "/(.*)",
             "dest": "/"
         }
-    ],
-    "functions": {
-        "timeout": 600
-    }
+    ]
 }
