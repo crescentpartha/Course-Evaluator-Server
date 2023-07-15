@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "course-evaluator-389af.web.app/",
   "main": "index.js",
+  "engines": {
+    "node": "16.x"
+  },
   "scripts": {
     "start": "node index.js",
     "start-dev": "nodemon index.js",
