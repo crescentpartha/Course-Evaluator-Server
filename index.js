@@ -24,8 +24,8 @@ const client = new MongoClient(uri, {
 // Create dynamic data and send to the database
 async function run() {
     try {
-        await client.connect();
-        // client.connect();
+        // await client.connect();
+        client.connect();
         const courseCollection = client.db('courseEvaluator').collection('course');
         const noticeCollection = client.db('courseEvaluator').collection('notice');
         const news_eventCollection = client.db('courseEvaluator').collection('news_event');
