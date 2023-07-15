@@ -91,7 +91,10 @@ async function run() {
 
         // 02. get all notices data (json format) from database
         app.get('/notice', async (req, res) => {
+            const {type} = req.query;
             const query = {};
+            if (type) query.type = type;
+            // console.log(query);
             const cursor = noticeCollection.find(query);
             const notices = await cursor.toArray();
             res.send(notices);
@@ -227,6 +230,23 @@ async function run() {
             const updatedDoc = {
                 $set: {
                     completedCourse: userData
+                }
+            };
+            const result = await userCollection.updateOne(filter, updatedDoc, options);
+            // console.log('User is updated');
+            res.send(result);
+        });
+
+        // 07. Update a particular user's role data in server-side and send to the database
+        app.put('/role_user/:id', async(req, res) => {
+            const id = req.params.id;
+            const userData = req.body;
+            // console.log(userData);
+            const filter = {_id: new ObjectId(id)};
+            const options = { upsert: true };
+            const updatedDoc = {
+                $set: {
+                    role: userData?.role
                 }
             };
             const result = await userCollection.updateOne(filter, updatedDoc, options);
